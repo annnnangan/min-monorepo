@@ -1,0 +1,95 @@
+---
+alwaysApply: true
+---
+
+# Monorepo Structure
+
+This is a minimal monorepo template with a pre-configured backend and on-demand frontend generation.
+
+## Backend (`/backend`)
+
+**Status:** Pre-configured and ready to use
+
+**Tech Stack:**
+- Python 3.13+
+- FastAPI web framework
+- Uvicorn ASGI server (embedded in main.py)
+- Package manager: `uv` (NOT pip)
+- Configuration: `pyproject.toml` and `.env`
+
+**Key Patterns:**
+- API routes defined in `app/routes/`
+- Configuration managed via Pydantic Settings in `app/config.py`
+- CORS configuration in `app/cors.py`
+- Entry point: `main.py` (includes uvicorn runner)
+
+**Commands:**
+- Install dependencies: `uv sync`
+- Run dev server: `uv run main.py`
+- Run any Python command: `uv run <command>`
+
+**Important:**
+- Always use `uv` for dependency management, not pip
+- Working directory for backend tasks: `/backend`
+- API endpoints should be prefixed with `/api`
+- Environment variables loaded from `.env` file
+- Backend runs on `http://localhost:8000`
+
+## Frontend (`/frontend`)
+
+**Status:** Created on-demand via `@init-frontend` Cursor command
+
+**Tech Stack (after initialization):**
+- React 19+ with TypeScript
+- Build tool: Vite
+- Package manager: `bun` (preferred) or `npm` (fallback) - auto-detected
+- API integration: Simple fetch API (no code generation)
+
+**Key Patterns:**
+- Source code in `src/`
+- Vite dev server proxies `/api` to backend during development
+- Example API integration in `App.tsx`
+
+**Commands (after initialization):**
+- Install dependencies: `bun install` or `npm install`
+- Run dev server: `bun run dev` or `npm run dev`
+- Build for production: `bun run build` or `npm run build`
+
+**Important:**
+- Frontend is NOT pre-configured - run `@init-frontend` first
+- Working directory for frontend tasks: `/frontend`
+- Use TypeScript for all new files
+- Dev server runs on `http://localhost:5173` by default
+- Package manager is auto-detected (prefers bun, falls back to npm)
+
+## Development Workflow
+
+**First Time Setup:**
+1. Start backend: `cd backend && uv run main.py`
+2. Initialize frontend (first time only): Run `@init-frontend` Cursor command
+3. Start frontend: `cd frontend && bun run dev` (or `npm run dev`)
+
+**Daily Development:**
+1. Start backend: `cd backend && uv run main.py`
+2. Start frontend: `cd frontend && bun run dev` (or `npm run dev`)
+3. Frontend dev server proxies API requests to backend
+
+**API Integration:**
+- Backend exposes OpenAPI schema at `/openapi.json`
+- Frontend uses simple fetch API for requests
+- Example endpoints: `GET /api/hello`, `GET /health`
+- CORS configured to allow `http://localhost:5173`
+
+## File Navigation Rules
+
+When working on:
+- **Backend features**: Focus on `/backend` directory, use Python/FastAPI patterns
+- **Frontend features**: Focus on `/frontend` directory, use React/TypeScript patterns
+- **API changes**: Update backend first, test with frontend fetch calls
+- **Full-stack features**: Coordinate changes across both directories
+
+**Never mix:**
+- Python dependencies in frontend
+- Node.js/npm/bun in backend
+- Frontend build artifacts in backend
+- Backend runtime files in frontend

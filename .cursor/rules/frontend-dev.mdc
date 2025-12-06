@@ -1,0 +1,183 @@
+---
+alwaysApply: false
+---
+# Frontend Development Rules
+
+**CRITICAL: Frontend Creation**
+The frontend is NOT pre-configured in this template. It must be initialized first:
+- Run `@init-frontend` Cursor command from the repo root
+- This creates `/frontend` directory with Vite + React + TypeScript
+- Package manager is auto-detected (prefers `bun`, falls back to `npm`)
+
+**CRITICAL: Frontend Isolation**
+When working on frontend tasks, you MUST:
+- Only modify files within `/frontend` directory
+- NEVER modify backend code, config, or dependencies
+- NEVER change root-level configuration files
+- Set working directory to `/frontend` for all frontend operations
+
+## Tech Stack
+
+**Runtime & Framework:**
+- React 19+ with TypeScript
+- Build tool: Vite
+- Dev server: Vite dev server (HMR enabled)
+
+**Package Management:**
+- Package manager: `bun` (preferred) or `npm` (auto-detected during initialization)
+- Dependencies: `package.json`
+- Lock file: `bun.lockb` or `package-lock.json`
+- Install: `bun install` or `npm install`
+- Add package: `bun add <package>` or `npm install <package>`
+- Run scripts: `bun run <script>` or `npm run <script>`
+
+**Configuration:**
+- TypeScript: `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`
+- Vite: `vite.config.ts`
+- ESLint: `eslint.config.js`
+- Environment: `.env` file (never commit this)
+
+## Project Structure
+
+```
+frontend/
+├── index.html           # HTML entry point
+├── package.json         # Dependencies & scripts
+├── bun.lockb            # Bun lock file (if using bun)
+├── package-lock.json    # npm lock file (if using npm)
+├── vite.config.ts       # Vite configuration (includes API proxy)
+├── tsconfig.json        # TypeScript base config
+├── eslint.config.js     # ESLint configuration
+├── .env                 # Environment variables (gitignored)
+└── src/
+    ├── main.tsx         # React app entry point
+    ├── App.tsx          # Root component (includes API example)
+    ├── App.css          # Root styles
+    ├── index.css        # Global styles
+    ├── components/      # React components (create as needed)
+    ├── hooks/           # Custom React hooks (create as needed)
+    ├── utils/           # Utility functions (create as needed)
+    └── assets/          # Static assets
+```
+
+**Note:** The `@init-frontend` command creates a minimal structure with example API integration in `App.tsx`.
+
+## Development Guidelines
+
+**TypeScript Requirements:**
+- **REQUIRED: Strict type safety for all TypeScript/TSX code**
+  - All function parameters must have type annotations
+  - All function return types must be explicitly declared
+  - Use proper React types: `React.FC`, `JSX.Element`, etc.
+  - No implicit `any` types - enable `strict` mode
+  - Props interfaces must be defined for all components
+- Use TypeScript for ALL new files (`.ts`, `.tsx`)
+- Never use `.js` or `.jsx` for new code
+- Prefer interfaces over types for object shapes
+
+**Component Guidelines:**
+- Use functional components with hooks (no class components)
+- Define prop types with TypeScript interfaces
+- Export components as named exports (prefer over default exports)
+- Keep components focused - single responsibility
+- Extract reusable logic into custom hooks
+
+**Code Style:**
+- Follow React best practices and conventions
+- Use meaningful component and variable names
+- Prefer composition over prop drilling
+- Use React hooks properly (dependencies, cleanup)
+- Handle loading and error states explicitly
+
+**Running the Frontend:**
+- Development: `bun run dev` or `npm run dev` (depending on package manager)
+- Always run from `/frontend` directory
+- Default port: 5173
+- Hot Module Replacement (HMR) enabled
+- API requests proxied to backend at `/api`
+
+**API Integration:**
+- Use simple fetch API for backend requests
+- Vite proxy handles `/api` routing to `http://localhost:8000`
+- Example in `App.tsx` shows basic pattern
+- Add TypeScript interfaces for API responses as needed
+- No automatic type generation by default (keep it simple)
+
+## File Modification Rules
+
+**You MAY modify:**
+- Any TypeScript/TSX file in `/frontend/src`
+- `package.json` for dependencies
+- `.env.example` for documenting env vars
+- Component files in `src/components/`
+- Styles (`.css` files)
+- Vite config for build/dev settings
+- ESLint config for linting rules
+
+**You MUST NOT modify:**
+- Any file in `/backend`
+- Root `README.md` (unless explicitly requested)
+- Backend configuration (pyproject.toml, main.py, etc.)
+- `.cursor/rules/` files (unless explicitly requested)
+- `.cursor/commands/` files (unless explicitly requested)
+
+## Common Tasks
+
+**Adding a new component:**
+1. Create component file in `src/components/`
+2. Define TypeScript interface for props
+3. Implement functional component with proper types
+4. Export component (prefer named exports)
+5. Import and use in parent component
+
+**Adding a dependency:**
+```bash
+cd frontend
+bun add <package-name>   # if using bun
+npm install <package-name>  # if using npm
+```
+
+**Updating dependencies:**
+```bash
+cd frontend
+bun install   # if using bun
+npm install   # if using npm
+```
+
+**Environment variables:**
+1. Add to `.env` with `VITE_` prefix for client-side access
+2. Document in `.env.example`
+3. Access via `import.meta.env.VITE_VAR_NAME`
+4. Never commit `.env` file
+
+**Building for production:**
+```bash
+cd frontend
+bun run build   # if using bun
+npm run build   # if using npm
+```
+Output: `dist/` directory (gitignored)
+
+## Integration with Backend
+
+When backend API changes:
+1. Backend must be running (`cd backend && uv run main.py`)
+2. Update TypeScript interfaces to match new API responses
+3. Update fetch calls as needed
+4. TypeScript will show errors if types don't match
+5. Test in browser to verify API integration
+
+**API Proxy in Development:**
+- Vite dev server proxies `/api/*` to `http://localhost:8000`
+- Configured in `vite.config.ts` (created by `@init-frontend`)
+- No CORS issues in development
+- Example in `App.tsx` shows the pattern
+
+## Deployment Notes
+
+Frontend can be deployed as a static site to various platforms:
+- Build output: `dist/` directory
+- Build command: `bun run build` or `npm run build`
+- Publish directory: `dist`
+- Environment variables: Use `VITE_` prefix for client-side access
+- Configure backend URL for production via environment variable
