@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Initialize Frontend
 
 Initialize the frontend directory using Vite with React TypeScript. This command will:
