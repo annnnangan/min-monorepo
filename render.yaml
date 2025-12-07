@@ -7,10 +7,10 @@ services:
     repo: https://github.com/annnnangan/min-monorepo
     plan: free
     envVars:
-      - key: PORT
-        value: "10000"
       - key: ENV
-        value: "production"
+        value: production
+      - key: PORT
+        value: 10000
       - key: CORS_ORIGINS
         fromService:
           type: web
@@ -29,9 +29,3 @@ services:
     staticPublishPath: dist
     autoDeployTrigger: commit
     rootDir: frontend
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: min-monorepo-be
-          property: url
