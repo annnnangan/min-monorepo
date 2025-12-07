@@ -1,4 +1,77 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + shadcn/ui
+
+This frontend application features a minimal login page built with shadcn/ui components.
+
+## Features
+
+- **Login Page**: A clean, modern login form with email and password fields
+- **shadcn/ui**: Pre-configured with Button, Input, Card, and Label components
+- **Tailwind CSS v4**: Modern styling with custom theme variables
+- **TypeScript**: Full type safety
+- **Dummy UI**: No backend integration - for UI demonstration purposes only
+
+## Getting Started
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   # or
+   bun install
+   ```
+
+2. **Run development server**:
+   ```bash
+   npm run dev
+   # or
+   bun run dev
+   ```
+
+3. **Build for production**:
+   ```bash
+   npm run build
+   # or
+   bun run build
+   ```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   └── ui/           # shadcn/ui components
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── input.tsx
+│       └── label.tsx
+├── lib/
+│   └── utils.ts      # Utility functions (cn helper)
+├── App.tsx           # Main login page component
+├── main.tsx          # Application entry point
+└── index.css         # Global styles with Tailwind
+```
+
+## Login Page
+
+The login page (`App.tsx`) includes:
+- Email and password input fields
+- "Forgot password?" link
+- "Sign up" link
+- Responsive design with gradient background
+- Form validation (required fields)
+- Console logging on form submission (dummy behavior)
+
+## Tech Stack
+
+- React 19
+- TypeScript 5
+- Vite 7
+- Tailwind CSS v4
+- shadcn/ui components
+- Radix UI primitives
+
+---
+
+# Original Vite Template Info
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
