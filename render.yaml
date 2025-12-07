@@ -2,6 +2,20 @@
 version: "1"
 services:
   - type: web
+      name: min-monorepo-fe
+      runtime: static
+      repo: https://github.com/annnnangan/min-monorepo
+      buildCommand: npm run build
+      staticPublishPath: dist
+      autoDeployTrigger: commit
+      rootDir: frontend
+      envVars:
+        - key: VITE_API_URL
+          fromService:
+            type: web
+            name: min-monorepo-be
+            envVarKey: RENDER_EXTERNAL_URL
+  - type: web
     name: min-monorepo-be
     runtime: python
     repo: https://github.com/annnnangan/min-monorepo
@@ -21,17 +35,4 @@ services:
     startCommand: uv run main.py
     autoDeployTrigger: commit
     rootDir: backend
-  - type: web
-    name: min-monorepo-fe
-    runtime: static
-    repo: https://github.com/annnnangan/min-monorepo
-    buildCommand: npm run build
-    staticPublishPath: dist
-    autoDeployTrigger: commit
-    rootDir: frontend
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: min-monorepo-be
-          envVarKey: RENDER_EXTERNAL_URL
+  
