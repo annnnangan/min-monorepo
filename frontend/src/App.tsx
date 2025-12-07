@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getApiUrl } from "@/lib/api";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ function App() {
   const [helloMessage, setHelloMessage] = useState<string>("");
 
   useEffect(() => {
-    fetch("/api/hello")
+    fetch(getApiUrl("/api/hello"))
       .then((res) => res.json())
       .then((data) => setHelloMessage(data.message))
       .catch((err) => console.error("Failed to fetch hello:", err));

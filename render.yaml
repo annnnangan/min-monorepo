@@ -29,3 +29,9 @@ services:
     staticPublishPath: dist
     autoDeployTrigger: commit
     rootDir: frontend
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: min-monorepo-be
+          envVarKey: RENDER_EXTERNAL_URL
