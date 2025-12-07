@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,15 @@ import {
 function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [helloMessage, setHelloMessage] = useState<string>("");
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || "/api";
+    fetch(`${apiUrl}/hello`)
+      .then((res) => res.json())
+      .then((data) => setHelloMessage(data.message))
+      .catch((err) => console.error("Failed to fetch hello:", err));
+  }, []);
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +32,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
+      {helloMessage && <p className="text-sm text-muted-foreground mt-2 mb-2">{helloMessage}</p>}
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>

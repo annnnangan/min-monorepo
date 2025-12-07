@@ -8,9 +8,14 @@ services:
     plan: free
     envVars:
       - key: PORT
-        sync: false
+        sync: 10000
       - key: ENV
-        sync: false
+        sync: "production"
+      - key: CORS_ORIGINS
+        fromService:
+          type: web
+          name: min-monorepo-fe
+          property: url
     region: singapore
     buildCommand: uv sync --no-dev
     startCommand: uv run main.py
@@ -24,3 +29,9 @@ services:
     staticPublishPath: dist
     autoDeployTrigger: commit
     rootDir: frontend
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: min-monorepo-be
+          property: url
