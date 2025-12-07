@@ -17,8 +17,7 @@ function App() {
   const [helloMessage, setHelloMessage] = useState<string>("");
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || "/api";
-    fetch(`${apiUrl}/hello`)
+    fetch("/api/hello")
       .then((res) => res.json())
       .then((data) => setHelloMessage(data.message))
       .catch((err) => console.error("Failed to fetch hello:", err));
