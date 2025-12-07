@@ -15,7 +15,7 @@ services:
         fromService:
           type: web
           name: min-monorepo-fe
-          property: url
+          envVarKey: RENDER_EXTERNAL_URL
     region: singapore
     buildCommand: uv sync --no-dev
     startCommand: uv run main.py
